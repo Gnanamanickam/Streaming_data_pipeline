@@ -45,7 +45,7 @@ object GenerateLogData:
   // get the bucket name from config file
   val bucketName: String = config.getString("randomLogGenerator.aws_s3.bucketName")
   // get the s3 file name from config file
-  val s3fileName: String = config.getString("randomLogGenerator.aws_s3.s3fileName")
+  val s3fileName: String = config.getString("randomLogGenerator.aws_s3.s3fileName") + java.time.LocalDate.now.toString + ".log"
   // get the local file name from config file
   val localFileName: String = config.getString("randomLogGenerator.aws_s3.localFileName")
 
