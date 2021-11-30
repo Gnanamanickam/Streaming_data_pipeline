@@ -77,15 +77,15 @@ class FileWatcher(val folder: File) extends Runnable {
     val event = new FileEvent(file)
     /* When a directory is registered for this event then the Watch key
 is queued when it is observed that an entry is created in the directory */
-    if (kind eq ENTRY_CREATE) {
-      for (listener <- listeners.asScala) {
-        listener.onCreated(event)
-      }
-      if (file.isDirectory) new FileWatcher(file).setListeners(listeners).watch()
-    }
+//    if (kind eq ENTRY_CREATE) {
+//      for (listener <- listeners.asScala) {
+//        listener.onCreated(event)
+//      }
+//      if (file.isDirectory) new FileWatcher(file).setListeners(listeners).watch()
+//    }
     /* When a directory is registered for this event then the Watch key
 is queued when it is observed that an entry is modified */
-    else if (kind eq ENTRY_MODIFY) {
+    if (kind eq ENTRY_MODIFY) {
       for (listener <- listeners.asScala) {
         listener.onModified(event)
       }
@@ -94,11 +94,11 @@ is queued when it is observed that an entry is modified */
    /* When a directory is registered for this event then the Watch key
    is queued when it is observed that an entry is deleted or renamed out of
     the directory. */
-    else if (kind eq ENTRY_DELETE) {
-      for (listener <- listeners.asScala) {
-        listener.onDeleted(event)
-      }
-    }
+//    else if (kind eq ENTRY_DELETE) {
+//      for (listener <- listeners.asScala) {
+//        listener.onDeleted(event)
+//      }
+//    }
   }
 
   // Method to add listeners

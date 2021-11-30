@@ -4,11 +4,11 @@ package driver
 
 abstract class FileAdapter extends FileListener {
 
-  def onCreated(event: FileEvent): Unit
+//  def onCreated(event: FileEvent): Unit
 
   def onModified(event: FileEvent): Unit
 
-  def onDeleted(event: FileEvent): Unit
+//  def onDeleted(event: FileEvent): Unit
 
 }
 
