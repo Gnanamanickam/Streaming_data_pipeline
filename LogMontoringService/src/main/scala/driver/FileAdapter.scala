@@ -1,6 +1,4 @@
-package org.FileMonitor
-
-import org.FileMonitor.FileListener
+package driver
 
 //Default implementation of the FileListener interface so that we can process only few of the events
 
