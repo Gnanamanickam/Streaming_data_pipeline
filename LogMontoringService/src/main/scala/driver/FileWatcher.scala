@@ -1,17 +1,8 @@
-package org.FileMonitor
+package driver
 
-import org.FileMonitor.FileEvent
-import org.FileMonitor.FileListener
+import java.io.{File, IOException}
 import java.nio.file.StandardWatchEventKinds._
-import java.io.File
-import java.io.IOException
-import java.nio.file.ClosedWatchServiceException
-import java.nio.file.FileSystems
-import java.nio.file.Path
-import java.nio.file.Paths
-import java.nio.file.WatchEvent
-import java.nio.file.WatchKey
-import java.nio.file.WatchService
+import java.nio.file._
 import java.util
 import java.util.Collections
 import scala.jdk.CollectionConverters._
