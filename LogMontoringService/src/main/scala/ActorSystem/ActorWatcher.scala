@@ -1,6 +1,7 @@
 package ActorSystem
 
-import akka.actor.{Actor, ActorRef, Props}
+import akka.actor.{Actor, ActorRef, ActorSystem, Props}
+import com.typesafe.config.{Config, ConfigFactory}
 import driver.{FileAdapter, FileEvent, FileWatcher}
 
 import java.io.File
@@ -27,4 +28,13 @@ class ActorWatcher(extractor: ActorRef, path: String) extends Actor {
       }
     }).watch()
   }
+}
+
+object Main extends App {
+  val config: Config = ConfigFactory.load("application" + ".conf")
+  val path = config.getString("config.FileName")
+  val system = ActorSystem("Watchers")
+  val extractor = system.actorOf(Props[ActorExtractor], name = "extractor")
+  val watcher = system.actorOf(ActorWatcher.props(extractor, path), name = "watcher")
+  watcher ! "watch"
 }
