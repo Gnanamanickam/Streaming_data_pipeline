@@ -1,6 +1,8 @@
+package Configuration
+
+import org.apache.spark.SparkContext
 import org.apache.spark.sql.SparkSession
 import org.apache.spark.streaming.{Seconds, StreamingContext}
-import org.apache.spark.SparkContext
 
 trait SparkConfig {
   val spark: SparkSession = SparkSession
