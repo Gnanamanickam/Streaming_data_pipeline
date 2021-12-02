@@ -10,20 +10,24 @@ import com.amazonaws.services.simpleemail.model.Content
 import com.amazonaws.services.simpleemail.model.Destination
 import com.amazonaws.services.simpleemail.model.Message
 import com.amazonaws.services.simpleemail.model.SendEmailRequest
+import com.typesafe.config.ConfigFactory
 
 import scala.collection.JavaConverters._
 
 
 object AwsEmailService {
 
+  // Get the config values from application.conf in resources
+  val config = ConfigFactory.load("Application.conf").getConfig("sparkStreaming")
+
   // The email address verified in AWS account
-  val DefaultSourceEmailAddress:String = "garumu3@uic.edu"
+  val DefaultSourceEmailAddress:String = config.getString("sourceAddress")
   // To email address
-  val targetAddressList: List[String] = List("garumu3@uic.edu")
+  val targetAddressList: List[String] = List(config.getString("targetAddressList"))
   // The subject line for the email.
-  val subject = "Spark Log Notifications"
+  val subject = config.getString("subject")
   // The body for the email.
-  val messageBody: Body = new Body(new Content("The auto generated email from Spark Application"))
+  val messageBody: Body = new Body(new Content(config.getString("subjectBody")))
   // destination email address
   val destination:Destination = new Destination(targetAddressList.asJava)
 
