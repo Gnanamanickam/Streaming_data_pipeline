@@ -17,14 +17,15 @@ import concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.duration.Duration
 import scala.util.{Failure, Success, Try}
 import java.io.File
-
 import com.amazonaws.services.s3.{AmazonS3, AmazonS3ClientBuilder}
 import com.amazonaws.regions.Regions
 import com.amazonaws.AmazonServiceException
+import com.amazonaws.services.s3.model.BucketVersioningConfiguration
+import com.amazonaws.services.s3.model.{AmazonS3Exception, BucketVersioningConfiguration, SetBucketVersioningConfigurationRequest}
 
 object GenerateLogData:
 
-//  logger to log the values for the class
+  //  logger to log the values for the class
   val logger = CreateLogger(classOf[GenerateLogData.type])
 
 
@@ -47,12 +48,29 @@ object GenerateLogData:
   // get the s3 file name from config file
   val s3fileName: String = config.getString("randomLogGenerator.aws_s3.s3fileName") + java.time.LocalDate.now.toString + ".log"
   // get the local file name from config file
-  val localFileName: String = config.getString("randomLogGenerator.aws_s3.localFileName")
+  val localFileName: String = config.getString("randomLogGenerator.aws_s3.localFileName") + java.time.LocalDate.now.toString + ".log"
 
   val s3: AmazonS3 = AmazonS3ClientBuilder.standard
     .withRegion(Regions.US_EAST_1) // The first region to try the request against
     .withForceGlobalBucketAccessEnabled(true) // If a bucket is in a different region, try again in the correct region
     .build
+
+  try {
+    // Enable versioning on the bucket.
+    val configuration: BucketVersioningConfiguration = BucketVersioningConfiguration().withStatus("Enabled");
+
+    // Set bucket versioning with configuration
+    val setBucketVersioningConfigurationRequest = new SetBucketVersioningConfigurationRequest(bucketName, configuration)
+
+    s3.setBucketVersioningConfiguration(setBucketVersioningConfigurationRequest)
+
+    // To verify the config status
+    val conf = s3.getBucketVersioningConfiguration(bucketName)
+    System.out.println("bucket versioning configuration status:    " + conf.getStatus)
+
+  } catch {
+    case e: AmazonS3Exception => System.err.println(e)
+  }
 
   // Try to put the object in the s3 bucket
   try s3.putObject(bucketName, s3fileName, new File(localFileName))
