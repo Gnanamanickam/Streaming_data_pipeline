@@ -1,18 +1,21 @@
 package driver
 
+import HelperUtils.CreateLogger
+import com.typesafe.config.ConfigFactory
+import driver.FileWatcher.log
+
 import java.io.{File, IOException}
-import java.nio.file.StandardWatchEventKinds.*
-import java.nio.file.*
+import java.nio.file.StandardWatchEventKinds._
+import java.nio.file._
 import java.util
 import java.util.Collections
-import scala.jdk.CollectionConverters.*
-
+import scala.jdk.CollectionConverters._
 
 // The class maintains the list of observers and notifies them about changes by calling the methods given .
 object FileWatcher {
 
   // To print log messages in console
-  val log = Logger.getLogger(classOf[FileWatcher])
+  val log = CreateLogger(classOf[FileWatcher.type])
 
   // Get the config values from application.conf in resources
   val config = ConfigFactory.load("Application.conf")
@@ -117,12 +120,14 @@ is queued when it is observed that an entry is modified */
 
   // Method to add listeners
   def addListener(listener: FileListener): FileWatcher = {
+    log.info("Add Listener")
     listeners.add(listener)
     this
   }
 
   // Method to remove listeners
   def removeListener(listener: FileListener): FileWatcher = {
+    log.info("Remove Listener")
     listeners.remove(listener)
     this
   }
@@ -132,6 +137,7 @@ is queued when it is observed that an entry is modified */
 
   //Method to set listeners
   def setListeners(listeners: util.ArrayList[FileListener]): FileWatcher = {
+    log.info("Set Listener")
     this.listeners = listeners
     this
   }
