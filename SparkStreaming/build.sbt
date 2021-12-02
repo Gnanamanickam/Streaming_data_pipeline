@@ -12,6 +12,7 @@ val scalacticVersion = "3.2.9"
 val generexVersion = "1.0.2"
 val sparkVersion = "3.0.3"
 val kafkaVersion = "2.4.0"
+val awsVersion = "1.12.89"
 
 resolvers += "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
 
@@ -34,5 +35,7 @@ libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-streaming-kafka-0-10" % sparkVersion,
   "org.apache.spark" %% "spark-sql-kafka-0-10" % sparkVersion,
   "org.apache.spark" %% "spark-sql" % sparkVersion,
-  "org.apache.kafka" %% "kafka" % kafkaVersion
+  "org.apache.kafka" %% "kafka" % kafkaVersion,
+  "com.amazonaws" % "aws-java-sdk" % awsVersion,
+  "com.amazonaws" % "aws-java-sdk-s3" % awsVersion
 )
