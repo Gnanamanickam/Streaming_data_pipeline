@@ -1,11 +1,5 @@
 import Configuration.{KafkaConfig, SparkConfig}
 import org.apache.spark.streaming.kafka010._
-import org.apache.spark._
-import org.apache.spark.streaming._
-import org.apache.spark.SparkConf
-import org.apache.spark.sql.SparkSession
-import org.apache.spark.sql.functions._
-import org.apache.spark.SparkContext
 
 object SparkStreaming extends App with SparkConfig with KafkaConfig {
 
@@ -23,7 +17,7 @@ object SparkStreaming extends App with SparkConfig with KafkaConfig {
         val offsetRanges = rdd.asInstanceOf[HasOffsetRanges].offsetRanges
         println(s"Ranges for batch: ${offsetRanges.mkString}")
         rdd.foreach(println)
-
+        var result: Array[String] = null
         kafkaConsumerStream.asInstanceOf[CanCommitOffsets].commitAsync(offsetRanges)
     }
   }
