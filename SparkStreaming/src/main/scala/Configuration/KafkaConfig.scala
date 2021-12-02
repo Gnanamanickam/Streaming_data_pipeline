@@ -1,5 +1,6 @@
 package Configuration
 
+import com.typesafe.config.ConfigFactory
 import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord}
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.streaming.dstream.InputDStream
@@ -7,15 +8,27 @@ import org.apache.spark.streaming.kafka010.{ConsumerStrategies, KafkaUtils, Loca
 
 trait KafkaConfig extends SparkConfig {
 
-  val kafkaTopicName = "kafkaToSpark"
+  // Get the config values from application.conf in resources
+  val config = ConfigFactory.load("Application.conf").getConfig("sparkStreaming")
+
+  // Give the list of kafkaTopicNames here
+  val kafkaTopicName = config.getString("kafkaToSpark")
+
+  // Set the kafka consumer configuration properties
   val kafkaConsumerConfig: Map[String, String] = Map(
-    ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG -> "localhost:9092",
+    // Set the bootstrap server config address
+    ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG -> config.getString("kafkaServer"),
     ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG -> classOf[StringDeserializer].getName,
     ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG -> classOf[StringDeserializer].getName,
-    ConsumerConfig.GROUP_ID_CONFIG -> "group-trips",
-    ConsumerConfig.AUTO_OFFSET_RESET_CONFIG -> "earliest",
-    ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG -> "false"
+    // Set the group ID config
+    ConsumerConfig.GROUP_ID_CONFIG -> config.getString("KafkaConsumerGroupID"),
+    // Set the auto offset reset config value
+    ConsumerConfig.AUTO_OFFSET_RESET_CONFIG -> config.getString("KafkaConsumerOffset"),
+    // Set the auto commit enable ot disable value
+    ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG -> config.getString("KafkaConsumerAutoCommit")
   )
+
+  // Pass the streamingContext from spark config to D stream along with consumer config properties and kafka topics
   val kafkaConsumerStream: InputDStream[ConsumerRecord[String, String]] = KafkaUtils.createDirectStream(
     streamingContext,
     LocationStrategies.PreferConsistent,
