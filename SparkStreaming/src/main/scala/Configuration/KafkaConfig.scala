@@ -1,10 +1,13 @@
 package Configuration
 
+import Utils.AwsEmailService.log
 import com.typesafe.config.ConfigFactory
 import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord}
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.streaming.dstream.InputDStream
 import org.apache.spark.streaming.kafka010.{ConsumerStrategies, KafkaUtils, LocationStrategies}
+
+import java.util.UUID
 
 trait KafkaConfig extends SparkConfig {
 
@@ -14,6 +17,7 @@ trait KafkaConfig extends SparkConfig {
   // Give the list of kafkaTopicNames here
   val kafkaTopicName = config.getString("kafkaToSpark")
 
+  log.info("Creating kafka consumer config")
   // Set the kafka consumer configuration properties
   val kafkaConsumerConfig: Map[String, String] = Map(
     // Set the bootstrap server config address
@@ -21,13 +25,14 @@ trait KafkaConfig extends SparkConfig {
     ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG -> classOf[StringDeserializer].getName,
     ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG -> classOf[StringDeserializer].getName,
     // Set the group ID config
-    ConsumerConfig.GROUP_ID_CONFIG -> config.getString("KafkaConsumerGroupID"),
+    ConsumerConfig.GROUP_ID_CONFIG -> UUID.randomUUID().toString,
     // Set the auto offset reset config value
     ConsumerConfig.AUTO_OFFSET_RESET_CONFIG -> config.getString("KafkaConsumerOffset"),
     // Set the auto commit enable ot disable value
     ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG -> config.getString("KafkaConsumerAutoCommit")
   )
 
+  log.info("Creating kafka Consumer Stream")
   // Pass the streamingContext from spark config to D stream along with consumer config properties and kafka topics
   val kafkaConsumerStream: InputDStream[ConsumerRecord[String, String]] = KafkaUtils.createDirectStream(
     streamingContext,

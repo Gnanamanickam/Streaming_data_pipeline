@@ -1,10 +1,12 @@
 import Configuration.{KafkaConfig, SparkConfig}
+import Utils.AwsEmailService.log
 import org.apache.spark.streaming.kafka010._
 
 object SparkStreaming extends App with SparkConfig with KafkaConfig {
 
   def init(): Unit = {
     // subscribe to topic
+    log.info("Reading spark stream data from kafka")
     val streamDF = spark
       .readStream
       .format("kafka")
@@ -12,6 +14,7 @@ object SparkStreaming extends App with SparkConfig with KafkaConfig {
       .option("subscribe", config.getString("kafkaTopicName"))
       .load()
 
+    log.info("Doing Spark Operations")
     kafkaConsumerStream.foreachRDD {
       rdd =>
         val offsetRanges = rdd.asInstanceOf[HasOffsetRanges].offsetRanges
@@ -23,9 +26,12 @@ object SparkStreaming extends App with SparkConfig with KafkaConfig {
   }
 
   override def main(args: Array[String]): Unit = {
+    log.info("Initializing Spark Streaming")
     init()
+    log.info("Starting streaming Context")
     streamingContext.start()
     streamingContext.awaitTermination()
+    log.info("Streaming Context Terminated")
   }
 
 }
