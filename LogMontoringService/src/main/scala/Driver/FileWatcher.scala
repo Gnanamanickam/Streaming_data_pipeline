@@ -1,8 +1,8 @@
-package driver
+package Driver
 
 import HelperUtils.CreateLogger
 import com.typesafe.config.ConfigFactory
-import driver.FileWatcher.log
+import Driver.FileWatcher.log
 
 import java.io.{File, IOException}
 import java.nio.file.StandardWatchEventKinds._

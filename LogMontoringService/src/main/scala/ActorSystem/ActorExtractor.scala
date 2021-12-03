@@ -3,7 +3,7 @@ package ActorSystem
 import HelperUtils.CreateLogger
 import akka.actor.Actor
 import com.typesafe.config.ConfigFactory
-import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.{KafkaProducer, ProducerRecord}
 
 import java.io.File
 import java.nio.file.Files
@@ -27,8 +27,9 @@ class ActorExtractor extends Actor {
   props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
   props.put("acks", "all")
   val producer = new KafkaProducer[String, String](props)
-  val topic = "kafkaToSpark"
-
+  // Give the list of kafkaTopicNames here
+  val kafkaTopicName = config.getString("kafkaTopicName")
+//  producer.send(new ProducerRecord[String, String](kafkaTopicName,"kafkaProducer","kafkaProducer"))
   // To receive the file
   override def receive: Receive = {
     case file: File =>

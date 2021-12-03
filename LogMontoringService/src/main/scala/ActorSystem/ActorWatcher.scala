@@ -3,7 +3,7 @@ package ActorSystem
 import HelperUtils.CreateLogger
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
 import com.typesafe.config.{Config, ConfigFactory}
-import driver.{FileAdapter, FileEvent, FileWatcher}
+import Driver.{FileAdapter, FileEvent, FileWatcher}
 
 import java.io.File
 

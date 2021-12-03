@@ -15,8 +15,7 @@ trait KafkaConfig extends SparkConfig {
   val config = ConfigFactory.load("Application.conf").getConfig("sparkStreaming")
 
   // Give the list of kafkaTopicNames here
-  val kafkaTopicName = config.getString("kafkaToSpark")
-
+  val kafkaTopicName = config.getString("kafkaTopicName")
   log.info("Creating kafka consumer config")
   // Set the kafka consumer configuration properties
   val kafkaConsumerConfig: Map[String, String] = Map(
