@@ -42,7 +42,7 @@ object GenerateLogData:
     LogMsgSimulator(init(RandomStringGenerator((Parameters.minStringLength, Parameters.maxStringLength), Parameters.randomSeed)), Parameters.maxCount)
   }
 
-  // get the bucket name from config file
+  /*// get the bucket name from config file
   val bucketName: String = config.getString("randomLogGenerator.aws_s3.bucketName")
   // get the s3 file name from config file
   val s3fileName: String = config.getString("randomLogGenerator.aws_s3.s3fileName") + java.time.LocalDate.now.toString + ".log"
@@ -59,7 +59,7 @@ object GenerateLogData:
   catch {
     case e: AmazonServiceException =>
       System.err.println(e)
-  }
+  }*/
 
   Try(Await.result(logFuture, Parameters.runDurationInMinutes)) match {
     case Success(value) => logger.info(s"Log data generation has completed after generating ${Parameters.maxCount} records.")
