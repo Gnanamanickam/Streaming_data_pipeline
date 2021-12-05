@@ -66,17 +66,17 @@ object GenerateLogData:
 
     // To verify the config status
     val conf = s3.getBucketVersioningConfiguration(bucketName)
-    System.out.println("bucket versioning configuration status:    " + conf.getStatus)
+    logger.info("bucket versioning configuration status:    " + conf.getStatus)
 
   } catch {
-    case e: AmazonS3Exception => System.err.println(e)
+    case e: AmazonS3Exception => logger.error(e)
   }
 
   // Try to put the object in the s3 bucket
   try s3.putObject(bucketName, s3fileName, new File(localFileName))
   catch {
     case e: AmazonServiceException =>
-      System.err.println(e)
+      logger.error(e)
   }*/
 
   Try(Await.result(logFuture, Parameters.runDurationInMinutes)) match {

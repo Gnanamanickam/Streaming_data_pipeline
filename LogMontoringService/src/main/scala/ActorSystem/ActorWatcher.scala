@@ -24,7 +24,7 @@ class ActorWatcher(extractor: ActorRef, path: String) extends Actor {
   override def receive: Receive = {
     case "watch" =>
       watch(extractor)
-    case _ => println("Invalid input")
+    case _ => log.error("Invalid input")
   }
 
   // To watch the file
