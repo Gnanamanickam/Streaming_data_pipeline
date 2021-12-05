@@ -20,12 +20,12 @@ object SparkStreaming extends App with SparkConfig with KafkaConfig {
 //        log.info(s"Ranges for batch: ${offsetRanges.mkString}")
         // Check if rdd count is greated than zero
         if (rdd.count() > 0) {
-          println("===================================================")
+          val body: String = config.getString("sparkStreaming.subjectBody") + rdd.collect().mkString(" ")
+         // Send email with the customized body
+          emailService(body)
         }
-//        val body: String = config.getString("sparkStreaming.subjectBody") + rdd.collect().mkString(" ")
-          // Send email with the customized body
-//          emailService(body)
-//        }
+        }
+
 //        var result: Array[String] = null
 //        kafkaConsumerStream.asInstanceOf[CanCommitOffsets].commitAsync(offsetRanges)
     }
