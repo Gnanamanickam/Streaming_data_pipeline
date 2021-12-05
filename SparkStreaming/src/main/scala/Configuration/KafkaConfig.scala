@@ -1,7 +1,7 @@
 package Configuration
 
-import Utils.AwsEmailService.log
 import com.typesafe.config.ConfigFactory
+import org.apache.kafka.clients.CommonClientConfigs
 import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord}
 import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.spark.streaming.dstream.InputDStream
@@ -33,7 +33,10 @@ trait KafkaConfig extends SparkConfig {
     // Set the auto offset reset config value
     ConsumerConfig.AUTO_OFFSET_RESET_CONFIG -> config.getString("KafkaConsumerOffset"),
     // Set the auto commit enable ot disable value
-    ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG -> config.getString("KafkaConsumerAutoCommit")
+    ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG -> config.getString("KafkaConsumerAutoCommit"),
+    CommonClientConfigs.SECURITY_PROTOCOL_CONFIG -> config.getString("securityProtocol"),
+    "ssl.truststore.location" -> config.getString("sslTruststoreLocation")
+
   )
 
   log.info("Creating kafka Consumer Stream")
