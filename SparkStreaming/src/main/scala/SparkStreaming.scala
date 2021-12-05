@@ -12,7 +12,7 @@ object SparkStreaming extends App with SparkConfig with KafkaConfig {
       .readStream
       .format("kafka")
       .option("kafka.bootstrap.servers", config.getString("sparkStreaming.kafkaServer"))
-      .option("subscribe", config.getString("kafkaTopicName"))
+      .option("subscribe", config.getString("sparkStreaming.kafkaTopicName"))
       .load()
 
     // Get the lines from the kafka and split them into words
@@ -27,7 +27,7 @@ object SparkStreaming extends App with SparkConfig with KafkaConfig {
         log.info(s"Ranges for batch: ${offsetRanges.mkString}")
         // Check if rdd count is greated than zero
         if (rdd.count() > 0) {
-        val body: String = config.getString("subjectBody") + rdd.collect().mkString(" ")
+        val body: String = config.getString("sparkStreaming.subjectBody") + rdd.collect().mkString(" ")
           // Send email with the customized body
           emailService(body)
         }
