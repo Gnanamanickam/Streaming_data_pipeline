@@ -13,10 +13,13 @@ val generexVersion = "1.0.2"
 val sparkVersion = "3.1.2"
 val kafkaVersion = "2.6.2"
 val awsVersion = "1.12.89"
+val jacksonVersion = "2.10.0"
 
 resolvers += "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
 
 libraryDependencies ++= Seq(
+  "com.fasterxml.jackson.core:jackson-core" % jacksonVersion,
+  "com.fasterxml.jackson.core:jackson-databind" % jacksonVersion,
   "ch.qos.logback" % "logback-core" % logbackVersion,
   "ch.qos.logback" % "logback-classic" % logbackVersion,
   "org.slf4j" % "slf4j-api" % sfl4sVersion,
@@ -24,6 +27,7 @@ libraryDependencies ++= Seq(
   "javax.xml.bind" % "jaxb-api" % "2.3.0",
   "commons-io" % "commons-io" % apacheCommonIOVersion,
   "org.scalactic" %% "scalactic" % scalacticVersion,
+  "org.apache.hadoop" % "hadoop-common" % "3.2.0",
   "org.scalatest" %% "scalatest" % scalacticVersion % Test,
   "org.scalatest" %% "scalatest-featurespec" % scalacticVersion % Test,
   "com.typesafe" % "config" % typesafeConfigVersion,
