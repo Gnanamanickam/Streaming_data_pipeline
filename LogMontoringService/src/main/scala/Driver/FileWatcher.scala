@@ -18,7 +18,7 @@ object FileWatcher {
   val log = CreateLogger(classOf[FileWatcher.type])
 
   // Get the config values from application.conf in resources
-  val config = ConfigFactory.load("Application.conf")
+  val config = ConfigFactory.load("application.conf")
 
   // Watch service api to register the file to be monitored .
   protected val watchServices = new util.ArrayList[WatchService]
