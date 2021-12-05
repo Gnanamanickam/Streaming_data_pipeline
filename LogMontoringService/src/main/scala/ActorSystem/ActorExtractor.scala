@@ -30,8 +30,7 @@ class ActorExtractor extends Actor {
   props.put("ssl.truststore.location", config.getString("config.sslTruststoreLocation"))
   val producer = new KafkaProducer[String, String](props)
 
-//   Give the list of kafkaTopicNames here
-
+  //   Give the list of kafkaTopicNames here
 
 
   // To receive the file
@@ -47,8 +46,11 @@ class ActorExtractor extends Actor {
 
   // To send data from producer to consumer
   def SendTokafka(data: String): Unit = {
-    println(data)
+    val message = data.split("\\s+")
     val kafkaTopicName = config.getString("config.topic")
-    producer.send(new ProducerRecord[String, String](kafkaTopicName,"kafkaProducer", data))
+
+    if (message(2) == config.getString("Config.RegEx")) {
+      producer.send(new ProducerRecord[String, String](kafkaTopicName, "kafkaProducer", data))
+    }
   }
 }
