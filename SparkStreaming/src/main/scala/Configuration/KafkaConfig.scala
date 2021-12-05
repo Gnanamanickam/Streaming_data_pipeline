@@ -44,7 +44,7 @@ trait KafkaConfig extends SparkConfig {
   val kafkaConsumerStream: InputDStream[ConsumerRecord[String, String]] = KafkaUtils.createDirectStream(
     streamingContext,
     LocationStrategies.PreferConsistent,
-    ConsumerStrategies.Subscribe[String, String](List(kafkaTopicName), kafkaConsumerConfig)
+    ConsumerStrategies.Subscribe[String, String](Set(kafkaTopicName), kafkaConsumerConfig)
   )
 
 }

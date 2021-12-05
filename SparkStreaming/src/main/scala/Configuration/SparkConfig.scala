@@ -14,15 +14,16 @@ trait SparkConfig {
 //  val conf = new SparkConf().setMaster("local[*]").setAppName("SparkStreaming")
 
   log.info("Creating Spark session")
-  val spark: SparkSession = SparkSession
-    .builder()
-    .appName("SparkStreaming") // appName parameter is a name for the application to show on the cluster UI
-    .master("local[*]") // master can be Spark Mesos or YARN cluster URL or local for local mode . * represents no. of threads
-    .getOrCreate() // get if available already or create a new one
+//  val spark: SparkSession = SparkSession
+//    .builder()
+//    .appName("SparkStreaming") // appName parameter is a name for the application to show on the cluster UI
+//    .master("local[*]") // master can be Spark Mesos or YARN cluster URL or local for local mode . * represents no. of threads
+//    .getOrCreate() // get if available already or create a new one
+  val conf = new SparkConf().setAppName("sparkstream").setMaster("local[*]")
 
   log.info("Creating Streaming Context with 10 seconds interval")
   //  Only one SparkContext should be active per JVM. Stop the active SparkContext before creating a new one.
-  val sparkContext: SparkContext = spark.sparkContext
+  val sparkContext: SparkContext = new SparkContext(conf)
   // Create a StreamingContext with working thread and batch interval of 10 seconds.
   val streamingContext: StreamingContext = new StreamingContext(sparkContext, Seconds(1))
   // Set Log level to error

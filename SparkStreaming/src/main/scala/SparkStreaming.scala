@@ -8,16 +8,9 @@ object SparkStreaming extends App with SparkConfig with KafkaConfig {
   def init(): Unit = {
     // subscribe to topic
     log.info("Reading spark stream data from kafka")
-    val streamDF = spark
-      .readStream
-      .format("kafka")
-      .option("kafka.bootstrap.servers", config.getString("sparkStreaming.kafkaServer"))
-      .option("subscribe", config.getString("sparkStreaming.kafkaTopicName"))
-      .load()
 
     // Get the lines from the kafka and split them into words
     val output = kafkaConsumerStream.map(_.value)
-    output.print()
 
     log.info("Doing Spark Operations")
     // Put the output in loop on RDD operation and count the number of errors
