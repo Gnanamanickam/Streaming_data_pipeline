@@ -47,16 +47,6 @@ object Main extends App {
   val config: Config = ConfigFactory.load("application" + ".conf")
   val path = config.getString("config.FileName")
   val system = ActorSystem("Watchers")
-  //  val folder = new File(path)
-  //  var actors =  Map[File, (ActorRef, ActorRef)]()
-  //  folder.listFiles().foreach{f =>
-  //  val extractor = system.actorOf(Extractor.props(f), name = "Extractor_" + f.getName)
-  //  val watcher = system.actorOf(Watcher.props(extractor, f), name = "Watcher_" + f.getName)
-  //  actors += (f -> (watcher, extractor))
-  //}
-  //  actors.foreach{entry =>
-  //    entry._2._1 ! "watch"
-  //  }
   // Get the extractor from Actor Extractor
   val extractor = system.actorOf(Props[ActorExtractor], name = "extractor")
   val watcher = system.actorOf(ActorWatcher.props(extractor, path), name = "watcher")
