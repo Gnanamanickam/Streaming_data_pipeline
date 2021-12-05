@@ -49,7 +49,7 @@ class ActorExtractor extends Actor {
     val message = data.split("\\s+")
     val kafkaTopicName = config.getString("config.topic")
 
-    if (message(2) == config.getString("config.RegEx")) {
+    if (message(2) == config.getString("config.regEx")) {
       producer.send(new ProducerRecord[String, String](kafkaTopicName, "kafkaProducer", data))
     }
   }
