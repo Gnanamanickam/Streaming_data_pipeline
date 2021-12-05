@@ -7,7 +7,6 @@ object SparkStreaming extends App with SparkConfig with KafkaConfig {
 
   def init(): Unit = {
     // subscribe to topic
-    log.info("Reading spark stream data from kafka")
 
     // Get the lines from the kafka and split them into words
     val output = kafkaConsumerStream.map(_.value)
@@ -19,8 +18,10 @@ object SparkStreaming extends App with SparkConfig with KafkaConfig {
 //        val offsetRanges = rdd.asInstanceOf[HasOffsetRanges].offsetRanges
 //        log.info(s"Ranges for batch: ${offsetRanges.mkString}")
         // Check if rdd count is greated than zero
+        log.info("Reading spark stream data from kafka")
         if (rdd.count() > 0) {
           val body: String = config.getString("sparkStreaming.subjectBody") + rdd.collect().mkString(" ")
+          log.info("body"+ body)
          // Send email with the customized body
           emailService(body)
         }
@@ -28,7 +29,7 @@ object SparkStreaming extends App with SparkConfig with KafkaConfig {
 
 //        var result: Array[String] = null
 //        kafkaConsumerStream.asInstanceOf[CanCommitOffsets].commitAsync(offsetRanges)
-    }
+
   }
 
   override def main(args: Array[String]): Unit = {
