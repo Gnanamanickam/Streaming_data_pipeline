@@ -1,19 +1,13 @@
 package Utils
 
 import Configuration.SparkConfig
-import com.amazonaws.auth.EnvironmentVariableCredentialsProvider
+import com.amazonaws.regions.Regions
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder
+import com.amazonaws.services.simpleemail.model._
+import com.typesafe.config.ConfigFactory
+import org.apache.log4j.Logger
 
 import java.io.IOException
-import org.apache.log4j.Logger
-import com.amazonaws.regions.Regions
-import com.amazonaws.services.simpleemail.{AmazonSimpleEmailService, AmazonSimpleEmailServiceClient, AmazonSimpleEmailServiceClientBuilder}
-import com.amazonaws.services.simpleemail.model.Body
-import com.amazonaws.services.simpleemail.model.Content
-import com.amazonaws.services.simpleemail.model.Destination
-import com.amazonaws.services.simpleemail.model.Message
-import com.amazonaws.services.simpleemail.model.SendEmailRequest
-import com.typesafe.config.ConfigFactory
-
 import scala.collection.JavaConverters._
 
 
@@ -23,15 +17,15 @@ object AwsEmailService {
   val log = Logger.getLogger(classOf[SparkConfig])
 
   // Get the config values from application.conf in resources
-  val config = ConfigFactory.load("Application.conf").getConfig("sparkStreaming")
+  val config = ConfigFactory.load("application.conf")
 
   log.info("Set the required parameters for AWS email service")
   // The email address verified in AWS account
-  val DefaultSourceEmailAddress:String = config.getString("sourceAddress")
+  val DefaultSourceEmailAddress:String = config.getString("sparkStreaming.sourceAddress")
   // To email address
-  val targetAddressList: List[String] = List(config.getString("targetAddressList"))
+  val targetAddressList: List[String] = List(config.getString("sparkStreaming.targetAddressList"))
   // The subject line for the email.
-  val subject = config.getString("subject")
+  val subject = config.getString("sparkStreaming.subject")
   log.info("Subject body added to Body")
   // destination email address
   val destination:Destination = new Destination(targetAddressList.asJava)
