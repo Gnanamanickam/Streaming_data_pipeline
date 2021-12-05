@@ -24,7 +24,7 @@ trait SparkConfig {
   //  Only one SparkContext should be active per JVM. Stop the active SparkContext before creating a new one.
   val sparkContext: SparkContext = spark.sparkContext
   // Create a StreamingContext with working thread and batch interval of 10 seconds.
-  val streamingContext: StreamingContext = new StreamingContext(sparkContext, Seconds(10))
+  val streamingContext: StreamingContext = new StreamingContext(sparkContext, Seconds(1))
   // Set Log level to error
   streamingContext.sparkContext.setLogLevel("ERROR")
 }

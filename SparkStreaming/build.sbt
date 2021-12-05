@@ -2,43 +2,45 @@ name := "SparkStreaming"
 
 version := "0.1"
 
-scalaVersion := "2.12.9"
+scalaVersion := "2.12.12"
+
+name := "spark-kafka-streaming"
+version := "1.0"
 
 val logbackVersion = "1.3.0-alpha10"
 val sfl4sVersion = "2.0.0-alpha5"
 val typesafeConfigVersion = "1.4.1"
-val apacheCommonIOVersion = "2.11.0"
 val scalacticVersion = "3.2.9"
-val generexVersion = "1.0.2"
-val sparkVersion = "3.1.2"
-val kafkaVersion = "2.6.2"
-val awsVersion = "1.12.89"
+val sparkVersion = "2.4.4"
+val awsJavaSdkVersion = "1.12.89"
+val akkaVersion = "2.5.23"
+val akkaKafkaStreamingVersion = "1.0.1"
 
-resolvers += "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releases/"
+libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % "1.1.2"
+
+dependencyOverrides += "com.fasterxml.jackson.core" % "jackson-databind" % "2.6.7.1"
+
+// Include Akka
+libraryDependencies += "com.typesafe.akka" %% "akka-stream" % akkaVersion
+libraryDependencies += "com.typesafe.akka" %% "akka-stream-kafka" % akkaKafkaStreamingVersion
+libraryDependencies += "com.typesafe.akka" %% "akka-stream-testkit" % akkaVersion
+
+// Include dependencies for Spark-Kafka
+libraryDependencies += "org.apache.spark" %% "spark-core" % sparkVersion
+libraryDependencies += "org.apache.spark" %% "spark-sql" % sparkVersion
+libraryDependencies += "org.apache.spark" %% "spark-streaming" % sparkVersion
+libraryDependencies += "org.apache.spark" %% "spark-streaming-kafka-0-10" % sparkVersion
+
+libraryDependencies += "com.amazonaws" % "aws-java-sdk" % awsJavaSdkVersion
+libraryDependencies += "com.amazonaws" % "aws-java-sdk-s3" % awsJavaSdkVersion
 
 libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-core" % logbackVersion,
   "ch.qos.logback" % "logback-classic" % logbackVersion,
   "org.slf4j" % "slf4j-api" % sfl4sVersion,
   "com.typesafe" % "config" % typesafeConfigVersion,
-  "javax.xml.bind" % "jaxb-api" % "2.3.0",
-  "commons-io" % "commons-io" % apacheCommonIOVersion,
   "org.scalactic" %% "scalactic" % scalacticVersion,
-  "org.apache.hadoop" % "hadoop-common" % "3.2.0",
-  "com.fasterxml.jackson.core" % "jackson-core" % "2.10.0",
-  "com.fasterxml.jackson.core" % "jackson-databind" % "2.10.0",
   "org.scalatest" %% "scalatest" % scalacticVersion % Test,
   "org.scalatest" %% "scalatest-featurespec" % scalacticVersion % Test,
   "com.typesafe" % "config" % typesafeConfigVersion,
-  "io.spray" %%  "spray-json" % "1.3.6",
-  "com.github.mifmif" % "generex" % generexVersion,
-  "org.apache.spark" %% "spark-core" % sparkVersion,
-  "org.apache.spark" %% "spark-streaming" % sparkVersion,
-  "org.apache.spark" %% "spark-avro" % sparkVersion,
-  "org.apache.spark" %% "spark-streaming-kafka-0-10" % sparkVersion,
-  "org.apache.spark" %% "spark-sql-kafka-0-10" % sparkVersion,
-  "org.apache.spark" %% "spark-sql" % sparkVersion,
-  "org.apache.kafka" %% "kafka" % kafkaVersion,
-  "com.amazonaws" % "aws-java-sdk" % awsVersion,
-  "com.amazonaws" % "aws-java-sdk-s3" % awsVersion
 )
