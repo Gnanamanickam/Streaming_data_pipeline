@@ -32,15 +32,10 @@ object AwsEmailService {
   val targetAddressList: List[String] = List(config.getString("targetAddressList"))
   // The subject line for the email.
   val subject = config.getString("subject")
-  // The body for the email.
-  val messageBody: Body = new Body(new Content(config.getString("subjectBody")))
   log.info("Subject body added to Body")
   // destination email address
   val destination:Destination = new Destination(targetAddressList.asJava)
   log.info("Target address list added to destination")
-
-  val message:Message =
-    new Message(new Content(subject), messageBody)
 
   /**
    * A handle on SES with credentials fetched from the environment variables
@@ -54,17 +49,20 @@ object AwsEmailService {
 
 
   @throws[IOException]
-  def main(args: Array[String]): Unit = {
+  def emailService(body: String): Unit = {
     try {
+      // The body for the email.
+      val messageBody: Body = new Body(new Content(body))
+      val message:Message =
+        new Message(new Content(subject), messageBody)
       val client = AmazonSimpleEmailServiceClientBuilder.standard.withRegion(Regions.US_EAST_1).build()
       val request = new SendEmailRequest(DefaultSourceEmailAddress, destination, message)
       client.sendEmail(request)
+      client.shutdown()
       log.info("Sending Email to the client")
-      System.out.println("Email sent")
     } catch {
       case ex: Exception =>
         log.error("Sending Email failed")
-        System.out.println("The email was not sent. Error message: " + ex.getMessage)
     }
   }
 }

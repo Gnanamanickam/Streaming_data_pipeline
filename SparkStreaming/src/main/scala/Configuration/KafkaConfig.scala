@@ -9,6 +9,10 @@ import org.apache.spark.streaming.kafka010.{ConsumerStrategies, KafkaUtils, Loca
 
 import java.util.UUID
 
+/**
+ *  topics is a list of kafka topics to consume from
+*   brokers is a list of Kafka brokers
+ *   **/
 trait KafkaConfig extends SparkConfig {
 
   // Get the config values from application.conf in resources
@@ -16,6 +20,7 @@ trait KafkaConfig extends SparkConfig {
 
   // Give the list of kafkaTopicNames here
   val kafkaTopicName = config.getString("kafkaTopicName")
+//  val kafkaTopicNameList = kafkaTopicName.split(",").toSet
   log.info("Creating kafka consumer config")
   // Set the kafka consumer configuration properties
   val kafkaConsumerConfig: Map[String, String] = Map(

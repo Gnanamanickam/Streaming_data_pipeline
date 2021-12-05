@@ -25,4 +25,6 @@ trait SparkConfig {
   val sparkContext: SparkContext = spark.sparkContext
   // Create a StreamingContext with working thread and batch interval of 10 seconds.
   val streamingContext: StreamingContext = new StreamingContext(sparkContext, Seconds(10))
+  // Set Log level to error
+  streamingContext.sparkContext.setLogLevel("ERROR")
 }

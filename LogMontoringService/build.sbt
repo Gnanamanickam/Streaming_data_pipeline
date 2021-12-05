@@ -6,7 +6,7 @@ scalaVersion := "2.13.7"
 
 val typesafeConfigVersion = "1.4.1"
 val AkkaVersion = "2.6.17"
-val kafkaVersion = "2.8.0"
+val kafkaVersion = "2.6.2"
 val sfl4sVersion = "2.0.0-alpha5"
 val scalacticVersion = "3.2.9"
 
