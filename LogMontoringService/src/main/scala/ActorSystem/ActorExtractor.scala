@@ -16,20 +16,21 @@ class ActorExtractor extends Actor {
   val log = CreateLogger(classOf[ActorExtractor])
 
   // Get the config values from application.conf in resources
-  val config = ConfigFactory.load("Application.conf")
+  val config = ConfigFactory.load("application.conf")
   var lastReadLines: scala.collection.mutable.Map[String, Int] = scala.collection.mutable.Map[String, Int]()
   var lineCounter = 0
   log.info("Add property values for kafka producers")
   val props: Properties = new Properties()
   log.info("set kafka server")
   props.put("bootstrap.servers", config.getString("config.KafkaServer"))
-  props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer")
-  props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer")
-  props.put("acks", "all")
+  props.put("key.serializer", config.getString("config.keySerializer"))
+  props.put("value.serializer", config.getString("config.valueSerializer"))
+  props.put("acks", config.getString("config.acks"))
   val producer = new KafkaProducer[String, String](props)
+
 //   Give the list of kafkaTopicNames here
-  val kafkaTopicName = config.getString("kafkaTopicName")
-  producer.send(new ProducerRecord[String, String](kafkaTopicName,"kafkaProducer","kafkaProducer"))
+
+
 
   // To receive the file
   override def receive: Receive = {
@@ -44,6 +45,8 @@ class ActorExtractor extends Actor {
 
   // To send data from producer to consumer
   def SendTokafka(data: String): Unit = {
-    println(data)
+//    println(data)
+    val kafkaTopicName = config.getString("config.topic")
+    producer.send(new ProducerRecord[String, String](kafkaTopicName,"kafkaProducer", data))
   }
 }
