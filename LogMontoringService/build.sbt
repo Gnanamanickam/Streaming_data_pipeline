@@ -15,6 +15,7 @@ resolvers += "Typesafe Repository" at "https://repo.typesafe.com/typesafe/releas
 libraryDependencies ++= Seq(
   "com.typesafe" % "config" % typesafeConfigVersion,
   "com.typesafe.akka" %% "akka-actor" % AkkaVersion,
+  "com.typesafe.akka" %% "akka-testkit" % AkkaVersion % Test,
   "org.apache.kafka" % "kafka-clients" % kafkaVersion,
   "org.slf4j" % "slf4j-api" % sfl4sVersion,
   "org.scalactic" %% "scalactic" % scalacticVersion,
