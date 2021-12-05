@@ -26,6 +26,8 @@ class ActorExtractor extends Actor {
   props.put("key.serializer", config.getString("config.keySerializer"))
   props.put("value.serializer", config.getString("config.valueSerializer"))
   props.put("acks", config.getString("config.acks"))
+  props.put("security.protocol", config.getString("config.securityProtocol"))
+  props.put("ssl.truststore.location", config.getString("config.sslTruststoreLocation"))
   val producer = new KafkaProducer[String, String](props)
 
 //   Give the list of kafkaTopicNames here
