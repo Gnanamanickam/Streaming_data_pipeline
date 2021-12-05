@@ -16,15 +16,15 @@ import scala.collection.mutable.ListBuffer
 class SparkStreamingTest extends AnyFlatSpec with BeforeAndAfter with GivenWhenThen with Matchers with Eventually {
 
   // Get the config values from application.conf in resources
-  val config = ConfigFactory.load("Application.conf").getConfig("randomLogGenerator")
+  val config = ConfigFactory.load("application.conf")
 
-  val kafkaServer = config.getInt("kafkaServer")
+  val kafkaServer = config.getString("sparkStreaming.kafkaServer")
 
   behavior of "Configuration Parameters Module"
 
   // check whether the kafka server address is right
   it should "Check for the kafka server" in {
-    kafkaServer shouldBe >= ("127.0.0.1:9092")
+    kafkaServer shouldBe >=("b-1.kafkatest.hmb0ms.c5.kafka.us-east-1.amazonaws.com:9094,b-2.kafkatest.hmb0ms.c5.kafka.us-east-1.amazonaws.com:9094")
   }
 
   "Sample set" should "be counted" in {
@@ -32,9 +32,5 @@ class SparkStreamingTest extends AnyFlatSpec with BeforeAndAfter with GivenWhenT
     val lines = mutable.Queue[RDD[String]]()
     var results = ListBuffer.empty[Array[WordCount]]
 
-//    WordCount.count(s,lines) {
-//      (wordsCount: RDD[WordCount], time: Time) =>
-//      results += wordsCount.collect()
-//  }
-
+  }
 }
