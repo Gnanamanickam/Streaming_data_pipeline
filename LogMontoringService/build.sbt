@@ -17,6 +17,7 @@ libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % AkkaVersion,
   "org.apache.kafka" % "kafka-clients" % kafkaVersion,
   "org.slf4j" % "slf4j-api" % sfl4sVersion,
+  "org.scalactic" %% "scalactic" % scalacticVersion,
   "org.scalatest" %% "scalatest" % scalacticVersion % Test,
   "org.scalatest" %% "scalatest-featurespec" % scalacticVersion % Test
 )
