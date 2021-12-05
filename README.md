@@ -113,7 +113,7 @@ val sc = new SparkContext(conf)
 
 This spark context should be used for spark operations
 
-###Steps 
+### Steps 
 
 1. Create a EC2 instance and upload the LogFileGenerator and run it in multiple instances in a periodic time .
 2. Create a MSK cluster and configure it in the ec2 instance with IAM access and also set the AWS credentials in environmental variable in EC2 instance.
