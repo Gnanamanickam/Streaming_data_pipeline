@@ -53,11 +53,17 @@ object AwsEmailService {
     try {
       // The body for the email.
       val messageBody: Body = new Body(new Content(body))
-      val message:Message =
+      val message:Message = {
         new Message(new Content(subject), messageBody)
+      }
+      // Build a client with amazon simple email service client builder
       val client = AmazonSimpleEmailServiceClientBuilder.standard.withRegion(Regions.US_EAST_1).build()
+      // Create a send email request
       val request = new SendEmailRequest(DefaultSourceEmailAddress, destination, message)
+      log.info("Send email")
+      // send email with client
       client.sendEmail(request)
+      // Shutdown the client
       client.shutdown()
       log.info("Sending Email to the client")
     } catch {

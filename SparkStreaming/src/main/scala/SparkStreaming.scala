@@ -20,12 +20,15 @@ object SparkStreaming extends App with SparkConfig with KafkaConfig {
     output.print()
 
     log.info("Doing Spark Operations")
+    // Put the output in loop on RDD operation and count the number of errors
     output.foreachRDD {
       rdd =>
         val offsetRanges = rdd.asInstanceOf[HasOffsetRanges].offsetRanges
         log.info(s"Ranges for batch: ${offsetRanges.mkString}")
+        // Check if rdd count is greated than zero
         if (rdd.count() > 0) {
         val body: String = config.getString("subjectBody") + rdd.collect().mkString(" ")
+          // Send email with the customized body
           emailService(body)
         }
         var result: Array[String] = null
@@ -35,9 +38,12 @@ object SparkStreaming extends App with SparkConfig with KafkaConfig {
 
   override def main(args: Array[String]): Unit = {
     log.info("Initializing Spark Streaming")
+    // initialize the kafka operation
     init()
     log.info("Starting streaming Context")
+    // Start the streaming context
     streamingContext.start()
+    // Await for termination
     streamingContext.awaitTermination()
     log.info("Streaming Context Terminated")
   }
