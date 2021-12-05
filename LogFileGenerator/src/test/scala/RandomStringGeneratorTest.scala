@@ -8,15 +8,15 @@
  *
  */
 
-package Generation
-
 import Generation.RSGStateMachine.unit
+import Generation.RandomStringGenerator
 import HelperUtils.Parameters
 import com.mifmif.common.regex.Generex
-import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.PrivateMethodTester
-import language.deprecated.symbolLiterals
+import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
+
+import scala.language.deprecated.symbolLiterals
 
 class RandomStringGeneratorTest extends AnyFlatSpec with Matchers with PrivateMethodTester {
   behavior of "random string generation"
