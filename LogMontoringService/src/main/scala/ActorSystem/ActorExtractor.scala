@@ -45,7 +45,7 @@ class ActorExtractor extends Actor {
 
   // To send data from producer to consumer
   def SendTokafka(data: String): Unit = {
-//    println(data)
+    println(data)
     val kafkaTopicName = config.getString("config.topic")
     producer.send(new ProducerRecord[String, String](kafkaTopicName,"kafkaProducer", data))
   }
