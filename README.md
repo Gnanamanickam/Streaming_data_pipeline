@@ -3,7 +3,8 @@
 End to End streaming data pipeline by designing and implementing an actor-model service using Akka that ingests data in real time and delivers it via an event-based service Kafka that streams the data to Spark for further processing and triggers a AWS email to target end users based on the insights given.
 
 Please find the Walk-through video in the following link: 
-[Walk-through]('https://youtu.be/w-05sX_oT5o')  
+
+[Walk-through](https://youtu.be/w-05sX_oT5o)  
 
 ## Team Members
 Gnanamanickam Arumugaperumal (garumu3@uic.edu)
@@ -127,6 +128,7 @@ This spark context should be used for spark operations
 6. The consumer receives the data in Spark application and do the necessary operations and triggers a AWS email to the targeted client address .
 
 Please find the Walk-through video in the following link:
-[Walk-through Video]('https://youtu.be/w-05sX_oT5o')  
+
+[Walk-through Video](https://youtu.be/w-05sX_oT5o)  
 
 
