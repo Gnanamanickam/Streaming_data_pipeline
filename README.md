@@ -1,8 +1,9 @@
 # Streaming_data_pipeline
 ## Overview
-End to End streaming data pipeline by designing and implementing an actor-model service using Akka that ingests data in real time and delivers it via an event-based service, Kafka to Spark for further processing and triggers a AWS email to target end users based on the insights given.
+End to End streaming data pipeline by designing and implementing an actor-model service using Akka that ingests data in real time and delivers it via an event-based service Kafka that streams the data to Spark for further processing and triggers a AWS email to target end users based on the insights given.
 
-Youtube link : https://youtu.be/w-05sX_oT5o 
+Please find the Walk-through video in the following link: 
+[Walk-through]('https://youtu.be/w-05sX_oT5o')  
 
 ## Team Members
 Gnanamanickam Arumugaperumal (garumu3@uic.edu)
@@ -13,12 +14,10 @@ Sriman Cherukuru (scheru4@uic.edu)
 
 ## Prerequisites
 
-* Install SBT to build the jar.
-* Terminal to SSH and SCP into VM to execute LogFileGenerator, Akka and Spark code using SBT .
-* AWS account to create a EC2 instance to run the files .
-* Create a MSK cluster that enables you to build and run applications that use Apache Kafka to process streaming data.
-* Setup a AWS email service (SES) in your AWS account .
-* Install Kafka Server in local to execute the kafka Producer and Consumer in local machine .
+* JDK >= 1.8, sbt >= 1.5, Unix-based OS
+* AWS account to create a EC2 instance to run the files.
+* Create MSK cluster that enables you to build and run applications that use Apache Kafka for streaming data.
+* Setup AWS email service (SES) in your AWS account .
 
 ## Installation
 
@@ -26,12 +25,12 @@ Sriman Cherukuru (scheru4@uic.edu)
 * Run the following commands in the console
 
 ```
-sbt clean compile test
+sbt clean compile test    # to run test
 ```
 ```
-sbt clean compile run
+sbt clean compile run     # to start execution
 ```
-* It builds and compiles the project
+
 * If you are using IntellIj clone the repository by using "Check out from Version Control and then Git."
 
 * The scala version should be set in the Global Libraries under Project Structure in Files .
@@ -71,7 +70,12 @@ Producers are the publisher of messages to one or more Kafka topics. Producers s
 
 #### Topic
 
-A stream of messages belonging to a particular category is called a topic. Data is stored in topics. It is split into partitions .
+A stream of messages belonging to a particular category is called a topic. Data is stored in topics. It is split into partitions.
+To create a topic usse the below command.
+
+```
+kafka-topics.sh --create --zookeeper "ZookeeperConnectString" --replication-factor 2 --partitions 1 --topic AWSKafkaTutorialTopic
+```
 
 #### Broker
 
@@ -115,11 +119,14 @@ This spark context should be used for spark operations
 
 ### Steps 
 
-1. Create a EC2 instance and upload the LogFileGenerator and run it in multiple instances in a periodic time .
-2. Create a MSK cluster and configure it in the ec2 instance with IAM access and also set the AWS credentials in environmental variable in EC2 instance.
+1. Create an EC2 instance and upload the LogFileGenerator and run it in EC2 instances in a periodic time .
+2. Create MSK cluster and configure it in the ec2 instance with IAM access and also set the AWS credentials in environmental variable in EC2 instance.
 3. List the cluster using aws command and copy the zookeeper path and create a cluster .
 4. Copy the kafka server address from the created MSK cluster and modify the application.conf file.
 5. Now the logFileGenerator running will be monitored in the EFS file system by the akka actor and it triggers a data to Spark from kafka producer to consumer .
-6. The consumer receives the data in Spark application and do the neccessary operations and triggers a AWS email to the targeted client address .
+6. The consumer receives the data in Spark application and do the necessary operations and triggers a AWS email to the targeted client address .
+
+Please find the Walk-through video in the following link:
+[Walk-through Video]('https://youtu.be/w-05sX_oT5o')  
 
 
